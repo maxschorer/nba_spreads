@@ -26,7 +26,6 @@ def main():
       results_json = json.loads(requests.get(url, headers=headers).text)
       if columns is None: columns = results_json['resultSets'][0]['headers']
       rows += results_json['resultSets'][0]['rowSet']
-      print 'Completed {} {}'.format(season, team)
 
   game_logs_df = pd.DataFrame(rows, columns=columns)
   connection = get_connection()

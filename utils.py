@@ -1,7 +1,12 @@
 import json
+import logging
 import os
 import pandas as pd
 import psycopg2
+import re
+
+# CONSTANTS
+SENTINEL = -1.0
 
 # Functions
 def json_to_dict(json_file_path):
@@ -77,9 +82,15 @@ def insert_df_into_table(connection, df, table):
     except Exception, e:
       print e
       connection.rollback()
+      print e
       logging.error('Error entering row')
       logging.error(e)
 
 
 def get_env(var):
   return os.environ.get(var)
+
+
+def convert(name):
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()

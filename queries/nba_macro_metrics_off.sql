@@ -1,0 +1,22 @@
+SELECT
+  season_year,
+  team_abbreviation AS team_code,
+  team_id,
+  game_date,
+  game_id,
+  RANK() OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ) AS game_num,
+  AVG(fgm) OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS avg_off_fgm,
+  AVG(fga) OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS avg_off_fga,
+  AVG(fg3m) OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS avg_off_fg3m,
+  AVG(fg3a) OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS avg_off_fg3a,
+  AVG(ast) OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS avg_off_ast,
+  AVG(blk) OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS avg_off_blk,
+  AVG(dreb) OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS avg_off_dreb,
+  AVG(oreb) OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS avg_off_oreb,
+  AVG(fta) OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS avg_off_fta,
+  AVG(ftm) OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS avg_off_ftm,
+  AVG(pts) OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS avg_off_pts,
+  AVG(reb) OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS avg_off_reb,
+  AVG(stl) OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS avg_off_stl,
+  AVG(tov) OVER (PARTITION BY season_year, team_abbreviation ORDER BY game_date ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING) AS avg_off_tov
+FROM nba_team_game_logs

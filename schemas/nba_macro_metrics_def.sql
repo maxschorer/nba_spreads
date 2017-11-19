@@ -1,0 +1,22 @@
+CREATE TABLE nba_macro_metrics_def (
+  season_year VARCHAR(8),
+  team_code VARCHAR(8),
+  team_id BIGINT,
+  game_date DATE,
+  game_id VARCHAR(16),
+  game_num SMALLINT,
+  avg_off_fgm NUMERIC,
+  avg_off_fga NUMERIC,
+  avg_off_fg3m NUMERIC,
+  avg_off_fg3a NUMERIC,
+  avg_off_ast NUMERIC,
+  avg_off_blk NUMERIC,
+  avg_off_dreb NUMERIC,
+  avg_off_oreb NUMERIC,
+  avg_off_fta NUMERIC,
+  avg_off_ftm NUMERIC,
+  avg_off_pts NUMERIC,
+  avg_off_reb NUMERIC,
+  avg_off_stl NUMERIC,
+  avg_off_tov NUMERIC
+)
