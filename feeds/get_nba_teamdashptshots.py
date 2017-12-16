@@ -8,7 +8,7 @@ from utils import *
 HOME_DIR = 'NBA_SPREAD_PATH'
 NBA_HEADERS = 'secure/nba_headers.json'
 NBA_TEAMS = 'secure/nba_teams.json'
-SEASONS = [2014, 2015, 2016, 2017]
+SEASONS = [2014, 2016, 2017]
 
 URL = 'https://stats.nba.com/stats/teamdashptshots?DateFrom={}&DateTo={}&GameSegment=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PaceAdjust=N&PerMode=PerGame&Period=0&PlusMinus=N&Rank=N&Season={}&SeasonSegment=&SeasonType=Regular+Season&TeamID={}&VsConference=&VsDivision='
 
@@ -60,10 +60,13 @@ def main():
   teams = json_to_dict(home_dir + NBA_TEAMS)
   results_list = []
   connection = get_connection()
-  for team_id, team in teams.iteritems():
-    for season in SEASONS:
+  season_games = set()
+  #for team_id, team in teams.iteritems():
+  for season in SEASONS:
+    for team_id, team in teams.iteritems():
       game_dates = get_game_dates(connection, team_id, season)
       for game_date in game_dates:
+        if (game_date, team_id) in season_games: continue
         game_date_list = game_date.split('-')
         game_date_str = '%2F'.join(game_date_list[1:] + game_date_list[:1])
         season_code = str(season-1) + '-' + str(season)[2:]
@@ -77,6 +80,8 @@ def main():
           # update columns
           for row in result_set['rowSet']:
             results_list.append([game_date, team_id, feature] + row[4:])
+        season_games.add((game_date, team_id))
+        print 'Completed {}-{}'.format(game_date, team)
 
   results_df = pd.DataFrame(results_list, columns=COLUMNS)
   results_df['FG3_PCT'].fillna(SENTINEL, inplace=True)
